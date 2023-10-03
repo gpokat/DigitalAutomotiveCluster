@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.simplecluster">
+
+    <!--Below permissions need to be granted to access android.car properties -->
+    <uses-permission android:name="android.car.permission.CAR_INFO" />
+    <uses-permission android:name="android.car.permission.CAR_ENERGY" />
+    <uses-permission android:name="android.car.permission.CAR_SPEED" />
+    <!--Below permissions signature protected i.e. need apk to be signed with platform key -->
+    <uses-permission android:name="android.car.permission.CAR_ENGINE_DETAILED" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+    <activity
+            android:name=".ClusterMainView"
+            android:exported="true">
+            <!--MAIN+DEFAULT+HOME guarantee to show app in home launchers app instead of place it in 'All apps'.
+            Also do not forget to choose 'Nothing' in Launch Options in Edit Configurations.-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

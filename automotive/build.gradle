@@ -1,0 +1,75 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_16
+        targetCompatibility JavaVersion.VERSION_16
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    kotlinOptions {
+        jvmTarget=17
+    }
+
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.simplecluster"
+        minSdk 31
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    /*guide how to generate platform.keystore from platform.x509.pem and platform.pk8 in AOSP:
+    key folder is: ssd1/zclone_skilfish_2023-04-08_0/build/target/product/security/
+    openssl pkcs8 -inform DER -nocrypt -in $PWD/platform.pk8 -out platform.key
+    openssl pkcs12 -export -in $PWD/platform.x509.pem -inkey \platform.key -name platform -out platform.pem -password pass:password
+    keytool -importkeystore -destkeystore platform.keystore -deststorepass \password -srckeystore platform.pem -srcstoretype PKCS12 -srcstorepass password
+    */
+    //ref. for signature platform key
+    signingConfigs {
+        release {
+            storeFile file("D:\\workspace\\adev\\SKILFISH_ANDROID_31_0_2022-11-02_23-34\\certs_from_AOSP\\platform.keystore")
+            storePassword "password"
+            keyAlias "platform"
+            keyPassword "password"
+        }
+    }
+
+    buildTypes {
+        release { //don't forget to choose correct build type in Build -> Active Build Variant and change BuildConfig.java
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release //ref. for signature platform key
+        }
+    }
+    namespace 'com.example.simplecluster'
+    /* to be able use android.car library outside of AOSP build
+    see https://issuetracker.google.com/issues/234749386?pli=1
+    Need:
+    -Android Studio Giraffe Canary 1 (2022.3.1.1)
+    -Android Gradle Plugin 8.1.0
+    */
+    useLibrary 'android.car'
+
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.mockk:mockk:1.13.5"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+}
