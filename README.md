@@ -7,4 +7,4 @@ Planning:
 - [X] Emulator support    
 
 
-![](https://github.com/gpokat/DigitalAutomotiveCluster/tree/master/demo/BatteryGaugeRing.png)
+![](https://github.com/gpokat/DigitalAutomotiveCluster/blob/master/demo/BatteryGaugeRing.png)
